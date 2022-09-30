@@ -4,4 +4,13 @@
 SCRIPT_PATH=$(readlink -f $0)
 . ${SCRIPT_PATH%/*}/bootlinux_env
 
-$busybox chroot $mnt /usr/bin/env su -l
+# env is /system/bin/env on android 12
+# `which env` returns /bin/env which is not always correct
+if [ -f "/usr/bin/env" ]; then
+    _env="/usr/bin/env"
+elif [ -f "/system/bin/env" ]; then
+    _env="/system/bin/env"
+else
+    _env=$(which env)
+fi
+$busybox chroot $mnt $_env su -l
