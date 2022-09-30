@@ -51,8 +51,9 @@ elif [ -x $SYSTEM2/bin/busybox ]; then
   _bb=$SYSTEM2/bin/busybox
 else
   echo "! Busybox not detected"
-  echo "Please install one (@osm0sis' busybox recommended)"
-  false
+  echo "> Falling back to /system/bin/busybox"
+  _bb=/system/bin/busybox
+  #false
 fi
 set_busybox $_bb
 [ $? -ne 0 ] && exit $?
